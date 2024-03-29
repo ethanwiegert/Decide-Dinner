@@ -1,10 +1,11 @@
+'use client'
 import { useState } from "react";
 
 export default function UseMyIdeas() {
 
 
     const [name, setName] = useState<string>("");
-    const [list, setList] = useState<{name: string}[]>([]);
+    const [list, setList] = useState<string[]>([]);
     const [restaurant, setRestaurant] = useState<string>("");
     const [display, setDisplay] = useState<boolean>(false);
   
@@ -12,42 +13,43 @@ export default function UseMyIdeas() {
       return Math.floor(Math.random() * max);
     }
   
-    const submitHandler = () => {
-      
+    const submitHandler = (event: any) => {
+      event.preventDefault();
       if (list.length < 2) {
         setRestaurant("");
       }
       if (list.length >= 2 && display) {
         let count = list.length;
         const picked = getRandomInt(count);
-        setRestaurant(`Your choice is: ${list[picked].name}`);
+        setRestaurant(`Your choice is: ${list[picked]}`);
       }
     };
   
     return (
         <div>
-        <div className="d-flex justify-content-center p-4">
+        <div className="">
           <h2>Add Your Ideas</h2>
         </div>
   
-        <div className="d-flex justify-content-center pt-1">
+        <div className="">
           <h6>Any list changes will reset your choice.</h6>
         </div>
   
-        <div className="d-flex justify-content-center">
+        <div className="">
           <form onSubmit={submitHandler}>
-            <div className="mt-2 mb-3">
+            <div className="">
               <input
-                className="m-2 p-2"
+                className=""
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
               <button
-                className="btn btn-success p-2 m-2"
+                className=""
                 onClick={() => {
-                  setList([...list, { name: name }]);
+                  setList([...list, name ]);
                   setName("");
                   setRestaurant("");
+                  console.log(list)
                 }}
               >
                 <svg
@@ -55,7 +57,7 @@ export default function UseMyIdeas() {
                   width="20"
                   height="20"
                   fill="currentColor"
-                  className="bi bi-plus-circle-fill"
+                  className=""
                   viewBox="0 0 15 20"
                 >
                   <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
@@ -65,16 +67,16 @@ export default function UseMyIdeas() {
             {list.length > 0 ? null : <h3>Your List:</h3>}
   
             {list.map((item) => (
-              <div key={item.name} className="row d-flex justify-content-center">
+              <div key={item} className="">
          
                   <div className="col-6">
-                    <p>{item.name}</p>
+                    <p>{item}</p>
                   </div>
                   <div className="col-6 pb-3">
                     <button
-                      className="btn btn-danger"
+                      className=""
                       onClick={() => {
-                        setList(list.filter((a) => a.name !== item.name));
+                        setList(list.filter((a) => a !== item));
                         setRestaurant("");
                       }}
                     >
@@ -86,13 +88,13 @@ export default function UseMyIdeas() {
   
             <br />
   
-            <div className="d-flex justify-content-center pb-5">
+            <div className="">
               {list.length >= 2 ? (
                 <button
                   type="submit"
                   name="submit"
                   onClick={() => setDisplay(true)}
-                  className="col-6 btn btn button-flip"
+                  className=""
                 >
                   Choose
                 </button>
@@ -103,7 +105,7 @@ export default function UseMyIdeas() {
   
         <br />
   
-        <div className="d-flex justify-content-center pb-5">
+        <div className="">
           <h4 id="result">{restaurant}</h4>
         </div>
   
